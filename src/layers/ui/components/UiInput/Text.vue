@@ -64,7 +64,7 @@ const vModel = useVModel(props, 'modelValue', emit);
   align-items: center;
   gap: 0;
   background-color: var(--surface-1);
-  border: solid 1px var(--border);
+  border: solid 1px var(--border-dimmed);
   border-radius: var(--radius-1);
 
   &:focus-within {

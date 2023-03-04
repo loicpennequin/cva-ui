@@ -28,6 +28,7 @@ const getOptionType = (key: string) => {
       </slot>
     </div>
     <aside>
+      <p v-if="!optionsKeys.length">This component has no options</p>
       <template v-for="key in optionsKeys" :key="key">
         <template v-if="getOptionType(key) === 'choices'">
           <fieldset>
@@ -55,8 +56,8 @@ const getOptionType = (key: string) => {
 .ui-component-preview {
   display: grid;
   grid-template-columns: 1fr 15rem;
-  min-height: 20rem;
-  border: solid 1px var(--border);
+  min-height: 15rem;
+  border: solid 1px var(--border-dimmed);
 }
 
 .content {
@@ -66,7 +67,7 @@ const getOptionType = (key: string) => {
 
 aside {
   padding: var(--size-2);
-  border-left: solid 1px var(--border);
+  border-left: solid 1px var(--border-dimmed);
 
   & > fieldset {
     margin-block-end: var(--size-3);

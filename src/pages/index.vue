@@ -33,7 +33,8 @@ const components = {
     control: ref(false),
     options: {
       size: ['sm', 'md', 'lg', 'xl'],
-      withSlots: false
+      withSlots: false,
+      disabled: false
     }
   },
   checkbox: {

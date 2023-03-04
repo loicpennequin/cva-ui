@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+import { omit, pick } from 'lodash-es';
+
+defineOptions({
+  inheritAttrs: false
+});
+
 const props = withDefaults(
   defineProps<{
     modelValue: boolean;
@@ -13,14 +19,16 @@ const emit = defineEmits<{
 
 const vModel = useVModel(props, 'modelValue', emit);
 const attrs = useAttrs();
+const wrapperAttrs = computed(() => pick(attrs, ['class', 'style']));
+const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
 </script>
 
 <template>
-  <div class="ui-input-switch" :class="props.size">
+  <div class="ui-input-switch" :class="[wrapperAttrs, props.size]">
     <input
       :id="props.id"
       v-model="vModel"
-      :aria-label="(attrs.ariaLabel as string)"
+      v-bind="inputAttrs"
       class="sr-only"
       type="checkbox"
     />
@@ -54,12 +62,19 @@ const attrs = useAttrs();
   }
 }
 
-input[type='checkbox']:not(:checked) ~ label:after {
-  left: 0;
-}
+input {
+  &:disabled ~ label {
+    background-color: var(--disabled);
 
-input[type='checkbox']:checked ~ label:after {
-  left: calc(100% - 18px);
+    &::after {
+      background-color: var(--text-disabled);
+    }
+  }
+
+  &:checked ~ label:after {
+    left: calc(100% - var(--_height));
+    background-color: var(--primary);
+  }
 }
 
 label {
@@ -70,16 +85,18 @@ label {
   padding-inline: var(--size-1);
   position: relative;
   border-radius: var(--radius-pill);
+  background: var(--surface-1);
 
   &::after {
     content: '';
     position: absolute;
     top: -1px;
+    left: 0;
     height: var(--_height);
     aspect-ratio: 1;
     border-radius: var(--radius-pill);
-    background-color: var(--primary);
-    transition: left 200ms;
+    background-color: hsl(var(--primary-hsl) / 0.6);
+    transition: left 200ms, background-color 200ms;
   }
 }
 </style>

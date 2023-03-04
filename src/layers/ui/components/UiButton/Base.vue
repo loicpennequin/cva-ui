@@ -69,19 +69,23 @@ const tag = computed(() => {
   &.sm {
     font-size: var(--font-size-0);
   }
+
   &.md {
     font-size: var(--font-size-1);
   }
+
   &.lg {
     font-size: var(--font-size-2);
   }
+
   &.xl {
     font-size: var(--font-size-3);
   }
-}
-& .icon {
-  font-size: var(--font-size-3);
-  aspect-ratio: 1;
-  display: block;
+
+  & > .icon {
+    font-size: var(--font-size-3);
+    aspect-ratio: 1;
+    display: block;
+  }
 }
 </style>

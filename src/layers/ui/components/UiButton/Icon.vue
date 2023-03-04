@@ -36,7 +36,7 @@ const buttonProps = computed(() => {
 
 <style scoped>
 .ui-button-icon {
-  border-radius: var(--radius-round);
-  padding: var(--size-1);
+  border-radius: var(--radius-round) !important;
+  padding: var(--size-1) !important;
 }
 </style>

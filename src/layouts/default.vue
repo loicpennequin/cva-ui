@@ -9,12 +9,16 @@ const switchLocalePath = useSwitchLocalePath();
     <header>
       <nav>
         <DarkModeToggle />
-        <NuxtLink :to="switchLocalePath('en')">
-          <Icon name="circle-flags:uk" />
-        </NuxtLink>
-        <NuxtLink :to="switchLocalePath('fr')">
-          <Icon name="circle-flags:fr" />
-        </NuxtLink>
+        <UiButtonIcon
+          :to="switchLocalePath('en')"
+          icon="circle-flags:uk"
+          title="Switch to english"
+        />
+        <UiButtonIcon
+          :to="switchLocalePath('fr')"
+          icon="circle-flags:fr"
+          title="Switch to french"
+        />
       </nav>
     </header>
 
@@ -30,6 +34,16 @@ const switchLocalePath = useSwitchLocalePath();
 
 nav {
   display: flex;
-  gap: var(--size-3);
+  gap: var(--size-2);
+}
+
+.lavout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+header {
+  position: sticky;
+  top: 0;
 }
 </style>

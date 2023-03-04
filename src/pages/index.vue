@@ -2,17 +2,16 @@
 defineOptions({
   name: 'HomePage'
 });
-const text = ref('');
 </script>
 
 <template>
   <UiContainer>
-    <UiSurface as="section">
-      <input $="text" />
-      <p>text: {{ text }}</p>
-      <UiButton left-icon="mdi:account" color-scheme="blue" variant="outlined">
-        Reset
-      </UiButton>
+    <UiSurface>
+      <UiButton>Click me</UiButton>
+      <UiButton variant="outlined">Click me</UiButton>
+      <UiButton variant="ghost">Click me</UiButton>
+      <UiButton variant="light">Click me</UiButton>
+      <UiButtonIcon icon="mdi:account" title="Button" />
     </UiSurface>
   </UiContainer>
 </template>

@@ -1,20 +1,9 @@
-export type ColorScheme =
-  | 'gray'
-  | 'stone'
-  | 'red'
-  | 'pink'
-  | 'purple'
-  | 'violet'
-  | 'indigo'
-  | 'blue'
-  | 'cyan'
-  | 'teal'
-  | 'green'
-  | 'lime'
-  | 'yellow'
-  | 'orange'
-  | 'choco'
-  | 'brown'
-  | 'sand'
-  | 'camo'
-  | 'jungle';
+export type ButtonVariant = 'full' | 'outlined' | 'ghost' | 'light';
+
+export type BaseButtonProps = {
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  leftIcon?: string;
+  rightIcon?: string;
+  isLoading?: boolean;
+  pill?: boolean;
+};

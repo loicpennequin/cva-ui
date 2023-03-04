@@ -7,6 +7,8 @@ const toggleColorMode = () => {
   colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
 };
 
+useDarkMode();
+
 const { t } = useI18n();
 </script>
 
@@ -19,6 +21,7 @@ const { t } = useI18n();
 <style scoped>
 button {
   padding: 0;
+  background-color: transparent;
 }
 </style>
 <i18n lang="json">

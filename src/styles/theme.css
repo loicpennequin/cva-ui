@@ -5,8 +5,8 @@
  To add other files to the autocompletion, edit the file located at .vscode/settings.json
 */
 
-html:not(.dark) {
-  --link: var(--indigo-7);
+:root {
+    --link: var(--indigo-7);
   --link-visited: var(--link);
 
   --text-1: var(--gray-10);
@@ -16,6 +16,8 @@ html:not(.dark) {
   --surface-2: var(--gray-2);
   --surface-3: var(--gray-3);
   --surface-4: var(--gray-4);
+
+  --radius-pill: 9999px;
 }
 
 html.dark {
@@ -25,13 +27,8 @@ html.dark {
   --text-1: var(--gray-1);
   --text-2: var(--gray-4);
   
-  --surface-1: var(--gray-9);
-  --surface-2: var(--gray-8);
-  --surface-3: var(--gray-7);
-  --surface-4: var(--gray-6);
-  
-}
-
-:root {
-  --radius-pill: 9999px;
+  --surface-1: var(--gray-10);
+  --surface-2: var(--gray-9);
+  --surface-3: var(--gray-8);
+  --surface-4: var(--gray-7); 
 }

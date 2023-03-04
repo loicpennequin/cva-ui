@@ -43,31 +43,43 @@ const getOptionType = (key: string) => {
           </fieldset>
         </template>
 
-        <label v-else-if="getOptionType(key) === 'boolean'">
-          <input v-model="_options[key]" type="checkbox" />
+        <UiInputCheckbox
+          v-else-if="getOptionType(key) === 'boolean'"
+          v-model="_options[key]"
+        >
           {{ key }}
-        </label>
+        </UiInputCheckbox>
       </template>
     </aside>
   </article>
 </template>
 
 <style scoped lang="postcss">
+@import 'open-props/media';
 .ui-component-preview {
   display: grid;
   grid-template-columns: 1fr 15rem;
-  min-height: 15rem;
   border: solid 1px var(--border-dimmed);
+
+  @media (--md-n-below) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .content {
   display: grid;
   place-content: center;
+  min-height: 15rem;
 }
 
 aside {
   padding: var(--size-2);
   border-left: solid 1px var(--border-dimmed);
+
+  @media (--md-n-below) {
+    border-left: none;
+    border-top: solid 1px var(--border-dimmed);
+  }
 
   & > fieldset {
     margin-block-end: var(--size-3);

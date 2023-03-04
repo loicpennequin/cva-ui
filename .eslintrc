@@ -23,7 +23,7 @@
     "vuejs-accessibility/form-control-has-label": [
       "error",
       {
-        "controlComponents": ["ui-input-text"]
+        "controlComponents": ["ui-input-text", "ui-input-password"]
       }
     ]
   }

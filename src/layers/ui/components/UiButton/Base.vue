@@ -83,7 +83,7 @@ const tag = computed(() => {
   }
 
   & > .icon {
-    font-size: var(--font-size-3);
+    font-size: var(--font-size-1);
     aspect-ratio: 1;
     display: block;
   }

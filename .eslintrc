@@ -18,6 +18,13 @@
         },
         "allowChildren": false
       }
+    ],
+
+    "vuejs-accessibility/form-control-has-label": [
+      "error",
+      {
+        "controlComponents": ["ui-input-text"]
+      }
     ]
   }
 }

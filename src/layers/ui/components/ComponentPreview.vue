@@ -51,7 +51,7 @@ const getOptionType = (key: string) => {
   </article>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .ui-component-preview {
   display: grid;
   grid-template-columns: 1fr 15rem;
@@ -67,13 +67,16 @@ const getOptionType = (key: string) => {
 aside {
   padding: var(--size-2);
   border-left: solid 1px var(--border);
-}
 
-aside > * + * {
-  margin-block-start: var(--size-3);
+  & > fieldset {
+    margin-block-end: var(--size-3);
+  }
 }
 
 label {
   display: block;
+  &:not(:last-of-type) {
+    margin-block-end: var(--size-1);
+  }
 }
 </style>

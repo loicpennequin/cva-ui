@@ -13,6 +13,7 @@ const buttonOptions = {
   rightIcon: false
 };
 const inputOptions = {
+  type: ['text', 'password'],
   disabled: false,
   leftIcon: false,
   rightIcon: false
@@ -36,13 +37,25 @@ const inputOptions = {
 
     <UiSurface>
       <h2>Input</h2>
-      <ComponentPreview v-slot="{ options }" :options="inputOptions">
+      <ComponentPreview
+        v-slot="{ options: { type, ...options } }"
+        :options="inputOptions"
+      >
+        <label for="input-text">My input</label>
         <UiInputText
-          id="foo"
+          v-if="type === 'text'"
+          id="input-text"
           v-model="text"
           v-bind="options"
           :left-icon="options.leftIcon ? 'mdi:account' : undefined"
           :right-icon="options.rightIcon ? 'mdi:account' : undefined"
+        />
+        <UiInputPassword
+          v-else-if="'password'"
+          id="input-text"
+          v-model="text"
+          v-bind="options"
+          :left-icon="options.leftIcon ? 'mdi:account' : undefined"
         />
       </ComponentPreview>
     </UiSurface>
@@ -51,8 +64,12 @@ const inputOptions = {
 
 <style scoped lang="postcss">
 .page {
-  & * + * {
+  & > * + * {
     margin-block-start: var(--size-8);
   }
+}
+
+h2 {
+  margin-block-end: var(--size-3);
 }
 </style>

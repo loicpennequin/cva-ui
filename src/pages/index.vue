@@ -43,6 +43,13 @@ const components = {
       size: ['sm', 'md', 'lg', 'xl'],
       disabled: false
     }
+  },
+  radio: {
+    control: ref('apple'),
+    options: {
+      size: ['sm', 'md', 'lg', 'xl'],
+      disabled: false
+    }
   }
 } satisfies Record<string, { options: AnyObject; control?: Ref<any> }>;
 </script>
@@ -144,6 +151,36 @@ const components = {
           >
             My checkbox
           </UiInputCheckbox>
+        </ComponentPreview>
+      </UiSurface>
+
+      <UiSurface>
+        <h2 id="radio">Radio</h2>
+        <ComponentPreview
+          v-slot="{ options }"
+          :options="components.radio.options"
+        >
+          <UiInputRadio
+            v-model="components.radio.control.value"
+            v-bind="options"
+            value="apple"
+          >
+            Apple
+          </UiInputRadio>
+          <UiInputRadio
+            v-model="components.radio.control.value"
+            v-bind="options"
+            value="banana"
+          >
+            Banana
+          </UiInputRadio>
+          <UiInputRadio
+            v-model="components.radio.control.value"
+            v-bind="options"
+            value="strawberry"
+          >
+            Strawberry
+          </UiInputRadio>
         </ComponentPreview>
       </UiSurface>
     </UiContainer>

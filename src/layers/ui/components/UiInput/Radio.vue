@@ -6,11 +6,11 @@ defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    modelValue: Nullable<string[] | string | boolean>;
-    value?: string;
+    modelValue: Nullable<string | boolean>;
+    value: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
   }>(),
-  { size: 'md', value: undefined }
+  { size: 'md' }
 );
 
 const emit = defineEmits<{
@@ -24,20 +24,19 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
 </script>
 
 <template>
-  <label class="ui-input-checkbox" :class="props.size" v-bind="labelAttrs">
+  <label class="ui-input-radio" :class="props.size" v-bind="labelAttrs">
     <input
       v-model="vModel"
-      type="checkbox"
+      type="radio"
       v-bind="inputAttrs"
       :value="props.value"
     />
-
     <slot />
   </label>
 </template>
 
 <style scoped lang="postcss">
-.ui-input-checkbox {
+.ui-input-radio {
   display: flex;
   gap: var(--size-1);
   align-items: center;
@@ -72,19 +71,19 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
     width: var(--size-4);
     height: var(--size-4);
     border: 1px solid currentColor;
-    border-radius: 0;
+    border-radius: var(--radius-round);
     display: grid;
     place-content: center;
 
     &::before {
       content: '';
-      width: var(--size-3);
+      width: calc(var(--size-3) * 0.75);
       aspect-ratio: 1;
       transform: scale(0);
       opacity: 0;
       transition: all 0.1s ease-in-out;
       background-color: var(--primary);
-      clip-path: polygon(8% 40%, 35% 66%, 90% 10%, 90% 40%, 35% 96%, 8% 70%);
+      border-radius: var(--radius-round);
     }
 
     &:checked::before {

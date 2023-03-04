@@ -15,7 +15,8 @@
         "required": {
           "some": ["nesting", "id"]
         },
-        "allowChildren": false
+        "allowChildren": false,
+        "controlComponents": ["ui-input-text", "ui-input-password"]
       }
     ],
 

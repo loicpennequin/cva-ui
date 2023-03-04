@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { type } from 'os';
+
 type Options = {
   [key: string]: string[] | boolean;
 };
@@ -33,13 +35,15 @@ const getOptionType = (key: string) => {
         <template v-if="getOptionType(key) === 'choices'">
           <fieldset>
             <legend>{{ key }}</legend>
-            <label
+            <UiInputRadio
               v-for="value in Object.values(props.options[key])"
               :key="value"
+              v-model="_options[key]"
+              type="radio"
+              :value="value"
             >
-              <input v-model="_options[key]" type="radio" :value="value" />
               {{ value }}
-            </label>
+            </UiInputRadio>
           </fieldset>
         </template>
 

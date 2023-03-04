@@ -15,13 +15,15 @@ const components = {
       size: ['sm', 'md', 'lg', 'xl'],
       disabled: false,
       leftIcon: false,
-      rightIcon: false
+      rightIcon: false,
+      iconButton: false
     }
   },
   input: {
     control: ref(''),
     options: {
       type: ['text', 'password'],
+      size: ['sm', 'md', 'lg', 'xl'],
       disabled: false,
       leftIcon: false,
       rightIcon: false
@@ -30,6 +32,7 @@ const components = {
   switch: {
     control: ref(false),
     options: {
+      size: ['sm', 'md', 'lg', 'xl'],
       withSlots: false
     }
   },
@@ -47,6 +50,7 @@ const components = {
   <UiContainer size="xl" class="page">
     <nav>
       <ul>
+        <li><h2>Components</h2></li>
         <li v-for="link in Object.keys(components)" :key="link">
           <NuxtLink
             :to="`#${link}`"
@@ -57,6 +61,7 @@ const components = {
         </li>
       </ul>
     </nav>
+
     <UiContainer class="previews">
       <UiSurface>
         <h2 id="button">Button</h2>
@@ -64,7 +69,16 @@ const components = {
           v-slot="{ options }"
           :options="components.button.options"
         >
+          <UiButtonIcon
+            v-if="options.iconButton"
+            v-bind="options"
+            icon="mdi:user"
+            title="an icon button"
+          >
+            Click Me
+          </UiButtonIcon>
           <UiButton
+            v-else
             v-bind="options"
             :left-icon="options.leftIcon ? 'mdi:account' : undefined"
             :right-icon="options.rightIcon ? 'mdi:account' : undefined"
@@ -108,6 +122,7 @@ const components = {
         >
           <UiInputSwitch
             id="switch-input"
+            v-bind="options"
             v-model="components.switch.control.value"
           >
             <template v-if="options.withSlots" #on>On</template>

@@ -34,9 +34,14 @@ const buttonProps = computed(() => {
   </UiButton>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .ui-button-icon {
   border-radius: var(--radius-round) !important;
   padding: var(--size-1) !important;
+
+  & > * {
+    width: 1.5em;
+    aspect-ratio: 1;
+  }
 }
 </style>

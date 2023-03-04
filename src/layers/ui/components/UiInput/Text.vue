@@ -11,6 +11,7 @@ type Props = {
   name?: string;
   type?: string;
   id: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   leftIcon?: string;
   rightIcon?: string;
 };
@@ -19,7 +20,8 @@ const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   leftIcon: undefined,
   rightIcon: undefined,
-  name: undefined
+  name: undefined,
+  size: 'md'
 });
 const slots = useSlots();
 
@@ -35,7 +37,7 @@ const vModel = useVModel(props, 'modelValue', emit);
 </script>
 
 <template>
-  <div class="ui-input-text" v-bind="wrapperAttrs">
+  <div class="ui-input-text" :class="props.size" v-bind="wrapperAttrs">
     <div v-if="slots.left || props.leftIcon" class="left">
       <slot name="left">
         <Icon v-if="props.leftIcon" :name="props.leftIcon" class="icon" />
@@ -72,6 +74,19 @@ const vModel = useVModel(props, 'modelValue', emit);
     outline-color: var(--brand, var(--link));
     outline-style: solid;
     outline-offset: 5px;
+  }
+
+  &.sm {
+    font-size: var(--font-size-0);
+  }
+  &.md {
+    font-size: var(--font-size-1);
+  }
+  &.lg {
+    font-size: var(--font-size-2);
+  }
+  &.xl {
+    font-size: var(--font-size-3);
   }
 
   & .left {

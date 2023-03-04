@@ -13,9 +13,11 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <button :aria-label="t('label')" @click="toggleColorMode">
-    <Icon :name="colorModeIcon" />
-  </button>
+  <UiButtonIcon
+    :title="t('label')"
+    :icon="colorModeIcon"
+    @click="toggleColorMode"
+  />
 </template>
 
 <style scoped>

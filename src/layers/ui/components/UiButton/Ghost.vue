@@ -12,18 +12,22 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <UiButton class="ui-button-ghost" v-bind="props">
+  <UiButtonBase class="ui-button-ghost" v-bind="props">
     <slot />
-  </UiButton>
+  </UiButtonBase>
 </template>
 
 <style scoped lang="postcss">
 .ui-button-ghost {
   background-color: transparent;
-  color: var(--gray-11);
+  color: var(--primary);
 
-  &:hover {
-    background-color: hsl(var(--gray-11-hsl) / 0.08);
+  &:hover:not(:disabled) {
+    background-color: hsl(var(--primary-hsl) / 0.08);
+  }
+
+  &:disabled {
+    color: var(--text-disabled);
   }
 }
 </style>

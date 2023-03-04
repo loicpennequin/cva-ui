@@ -19,11 +19,16 @@ const props = defineProps<Props>();
 
 <style scoped lang="postcss">
 .ui-button-light {
-  color: var(--gray-11);
-  background-color: var(--gray-3);
+  color: var(--primary);
+  background-color: hsl(var(--primary-hsl) / 0.2);
 
-  &:hover {
-    background-color: var(--gray-5);
+  &:hover:not(:disabled) {
+    background-color: hsl(var(--primary-hsl) / 0.3);
+  }
+
+  &:disabled {
+    background-color: hsl(var(--disabled-hsl) / 0.3);
+    color: var(--text-disabled);
   }
 }
 </style>

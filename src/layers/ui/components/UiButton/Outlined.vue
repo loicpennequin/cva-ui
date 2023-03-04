@@ -20,13 +20,17 @@ const props = defineProps<Props>();
 <style scoped lang="postcss">
 .ui-button-outlined {
   background-color: transparent;
-  color: var(--gray-11);
+  color: var(--primary);
   border-color: currentColor;
 
-  &:hover {
+  &:hover:not(:disabled) {
     border-color: transparent;
-    color: var(--gray-0);
-    background-color: var(--gray-11);
+    color: var(--text-on-primary);
+    background-color: var(--primary);
+  }
+
+  &:disabled {
+    color: var(--text-disabled);
   }
 }
 </style>

@@ -63,8 +63,7 @@ const tag = computed(() => {
   border: solid 2px transparent;
 
   &:disabled {
-    cursor: initial;
-    opacity: 0.7;
+    cursor: not-allowed;
   }
 
   &.sm {

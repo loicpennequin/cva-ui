@@ -19,11 +19,16 @@ const props = defineProps<Props>();
 
 <style scoped lang="postcss">
 .ui-button-full {
-  color: var(--gray-0);
-  background-color: var(--gray-11);
+  color: var(--text-on-primary);
+  background-color: var(--primary);
 
-  &:hover {
-    background-color: var(--gray-8);
+  &:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+  }
+
+  &:disabled {
+    background-color: var(--disabled);
+    color: var(--text-disabled);
   }
 }
 </style>

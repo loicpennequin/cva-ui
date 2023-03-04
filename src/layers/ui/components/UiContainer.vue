@@ -1,17 +1,32 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ as?: string }>(), { as: 'div' });
+const props = withDefaults(
+  defineProps<{ as?: string; size?: 'sm' | 'md' | 'lg' | 'xl' }>(),
+  { as: 'div', size: 'md' }
+);
 </script>
 
 <template>
-  <component :is="props.as" class="ui-container">
+  <component :is="props.as" class="ui-container" :class="props.size">
     <slot />
   </component>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .ui-container {
   width: 100%;
-  max-width: var(--size-xl);
   margin-inline: auto;
+
+  &.sm {
+    max-width: var(--size-sm);
+  }
+  &.md {
+    max-width: var(--size-md);
+  }
+  &.lg {
+    max-width: var(--size-lg);
+  }
+  &.xl {
+    max-width: var(--size-xl);
+  }
 }
 </style>

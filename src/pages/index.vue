@@ -2,16 +2,21 @@
 defineOptions({
   name: 'HomePage'
 });
+
+const buttonOptions = {
+  variant: ['full', 'outlined', 'ghost', 'light'],
+  size: ['sm', 'md', 'lg', 'xl'],
+  disabled: false
+};
 </script>
 
 <template>
   <UiContainer>
     <UiSurface>
-      <UiButton>Click me</UiButton>
-      <UiButton variant="outlined">Click me</UiButton>
-      <UiButton variant="ghost">Click me</UiButton>
-      <UiButton variant="light">Click me</UiButton>
-      <UiButtonIcon icon="mdi:account" title="Button" />
+      <h2>Button</h2>
+      <ComponentPreview v-slot="{ options }" :options="buttonOptions">
+        <UiButton v-bind="options">Click Me</UiButton>
+      </ComponentPreview>
     </UiSurface>
   </UiContainer>
 </template>

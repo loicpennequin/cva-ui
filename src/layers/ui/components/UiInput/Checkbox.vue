@@ -9,6 +9,7 @@ const props = withDefaults(
     modelValue: Nullable<string[] | string | boolean>;
     value?: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
+    isError?: boolean;
   }>(),
   { size: 'md', value: undefined }
 );
@@ -24,7 +25,11 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
 </script>
 
 <template>
-  <label class="ui-input-checkbox" :class="props.size" v-bind="labelAttrs">
+  <label
+    class="ui-input-checkbox"
+    :class="[props.size, props, isError && 'error']"
+    v-bind="labelAttrs"
+  >
     <input
       v-model="vModel"
       type="checkbox"
@@ -60,6 +65,13 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
 
   &.xl {
     font-size: var(--font-size-3);
+  }
+
+  &.error input {
+    border-color: var(--error);
+    &::before {
+      background-color: var(--error);
+    }
   }
 
   & input {

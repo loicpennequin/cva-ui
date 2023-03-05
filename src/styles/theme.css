@@ -23,8 +23,7 @@
   --primary-hover: var(--gray-8);
   --text-on-primary: var(--gray-0);
 
-  --error: var(--red-7);
-  --text-error: var(--red-9);
+  --error: var(--red-9);
 
   --disabled: var(--gray-3);
   --disabled-hsl: var(--gray-3-hsl);
@@ -53,8 +52,7 @@ html.dark {
   --primary-hover: var(--gray-4);
   --text-on-primary: var(--gray-11);
 
-  --error: var(--red-7);
-  --text-error: var(--red-5);
+  --error: var(--red-5);
 
   --disabled: var(--gray-9);
   --disabled-hsl: var(--gray-9-hsl);

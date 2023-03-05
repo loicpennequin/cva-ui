@@ -13,9 +13,10 @@ const isHidden = computed(() => !props.error || !props.isVisible);
 
 <style scoped lang="postcss">
 .ui-form-error {
-  color: var(--text-error);
+  color: var(--error);
   gap: var(--size-2);
   transition: opacity 0.2s;
+  min-height: 1.5em;
 
   & > svg {
     float: left;

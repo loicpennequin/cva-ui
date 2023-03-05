@@ -10,7 +10,8 @@ const slotProps = computed(() => ({
   modelValue: value.value as any,
   'onUpdate:modelValue'(val: any) {
     value.value = val;
-  }
+  },
+  isError: !!errorMessage.value
 }));
 </script>
 

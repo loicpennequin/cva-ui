@@ -29,7 +29,8 @@ const components = {
       size: ['sm', 'md', 'lg', 'xl'],
       disabled: false,
       leftIcon: false,
-      rightIcon: false
+      rightIcon: false,
+      isError: false
     }
   },
   switch: {
@@ -37,21 +38,24 @@ const components = {
     options: {
       size: ['sm', 'md', 'lg', 'xl'],
       withSlots: false,
-      disabled: false
+      disabled: false,
+      isError: false
     }
   },
   checkbox: {
     control: ref(false),
     options: {
       size: ['sm', 'md', 'lg', 'xl'],
-      disabled: false
+      disabled: false,
+      isError: false
     }
   },
   radio: {
     control: ref('apple'),
     options: {
       size: ['sm', 'md', 'lg', 'xl'],
-      disabled: false
+      disabled: false,
+      isError: false
     }
   },
   modal: {

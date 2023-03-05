@@ -14,6 +14,7 @@ type Props = {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   leftIcon?: string;
   rightIcon?: string;
+  isError?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -37,7 +38,11 @@ const vModel = useVModel(props, 'modelValue', emit);
 </script>
 
 <template>
-  <div class="ui-input-text" :class="props.size" v-bind="wrapperAttrs">
+  <div
+    class="ui-input-text"
+    :class="[props.size, props, isError && 'error']"
+    v-bind="wrapperAttrs"
+  >
     <div v-if="slots.left || props.leftIcon" class="left">
       <slot name="left">
         <Icon v-if="props.leftIcon" :name="props.leftIcon" class="icon" />
@@ -74,6 +79,10 @@ const vModel = useVModel(props, 'modelValue', emit);
     outline-color: var(--brand, var(--link));
     outline-style: solid;
     outline-offset: 5px;
+  }
+
+  &.error {
+    border-color: var(--error);
   }
 
   &.sm {

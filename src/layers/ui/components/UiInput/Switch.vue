@@ -10,6 +10,7 @@ const props = withDefaults(
     modelValue: boolean;
     id: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
+    isError?: boolean;
   }>(),
   { size: 'md' }
 );
@@ -24,7 +25,10 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
 </script>
 
 <template>
-  <div class="ui-input-switch" :class="[wrapperAttrs, props.size]">
+  <div
+    class="ui-input-switch"
+    :class="[wrapperAttrs, props.size, props.isError && 'error']"
+  >
     <input
       :id="props.id"
       v-model="vModel"
@@ -46,6 +50,10 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
   padding: var(--size-1);
   border-radius: var(--radius-pill);
   font-size: var(--font-size-0);
+
+  &.error label {
+    border-color: var(--error);
+  }
 
   &.sm label {
     --_height: var(--size-3);

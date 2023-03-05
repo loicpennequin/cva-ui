@@ -1,25 +1,16 @@
 <script setup lang="ts">
 useI18n();
-
-const switchLocalePath = useSwitchLocalePath();
 </script>
 
 <template>
   <div class="layout">
     <header>
-      <nav>
-        <DarkModeToggle />
-        <UiButtonIcon
-          :to="switchLocalePath('en')"
-          icon="circle-flags:uk"
-          title="Switch to english"
-        />
-        <UiButtonIcon
-          :to="switchLocalePath('fr')"
-          icon="circle-flags:fr"
-          title="Switch to french"
-        />
-      </nav>
+      <UiContainer size="xl">
+        <h1>Create V3 App UI</h1>
+        <nav>
+          <DarkModeToggle />
+        </nav>
+      </UiContainer>
     </header>
 
     <slot />
@@ -32,6 +23,21 @@ const switchLocalePath = useSwitchLocalePath();
   color: var(--text-1);
 }
 
+header {
+  background-color: var(--surface-1);
+  box-shadow: var(--shadow-2);
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--size-2) var(--size-5);
+  }
+}
+
+h1 {
+  font-size: var(--size-5);
+}
 nav {
   display: flex;
   gap: var(--size-2);

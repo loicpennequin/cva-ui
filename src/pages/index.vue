@@ -54,7 +54,8 @@ const components = {
   modal: {
     control: ref(false),
     options: {
-      size: ['sm', 'md', 'lg', 'xl']
+      size: ['sm', 'md', 'lg', 'xl'],
+      isClosable: true
     }
   }
 } satisfies Record<string, { options: AnyObject; control?: Ref<any> }>;
@@ -206,7 +207,12 @@ const components = {
           >
             <p>Wow! What a cool modal !</p>
 
-            <template #footer>And what a cool modal footer !</template>
+            <template #footer>
+              And what a cool modal footer !
+              <UiButton @click="components.modal.control.value = false">
+                Close
+              </UiButton>
+            </template>
           </UiModal>
         </ComponentPreview>
       </UiSurface>
@@ -237,7 +243,7 @@ h2 {
 nav {
   padding: var(--size-4);
   position: sticky;
-  top: 2.2rem;
+  top: 3.5rem;
   height: calc(100vh - 2.2rem);
 
   & > ul {

@@ -68,8 +68,9 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
     margin: 0;
     font: inherit;
     color: currentColor;
-    width: var(--size-4);
-    height: var(--size-4);
+    width: 1.25em;
+    height: 1.25em;
+    min-height: 18px;
     border: 1px solid currentColor;
     border-radius: var(--radius-round);
     display: grid;
@@ -77,8 +78,8 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
 
     &::before {
       content: '';
-      width: calc(var(--size-3) * 0.75);
-      aspect-ratio: 1;
+      width: 0.8em;
+      height: 0.8em;
       transform: scale(0);
       opacity: 0;
       transition: all 0.1s ease-in-out;

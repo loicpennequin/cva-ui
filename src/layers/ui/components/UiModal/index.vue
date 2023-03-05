@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 
-const props = defineProps<{
-  isOpened: boolean;
-  title: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-}>();
+const props = withDefaults(
+  defineProps<{
+    isOpened: boolean;
+    title: string;
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    isClosable?: boolean;
+  }>(),
+  {
+    size: 'md',
+    isClosable: true
+  }
+);
 
 const emit = defineEmits<
   SE<{
@@ -20,9 +27,14 @@ const containerEl = ref<HTMLElement>();
 const isBodyLocked = ref(false);
 const { activate, deactivate } = useFocusTrap(containerEl);
 
+const close = () => {
+  if (!props.isClosable) return;
+  vModel.value = false;
+};
+
 useBodyScrollLock(isBodyLocked);
-onClickOutside(containerEl, () => (vModel.value = false));
-onKeyStroke('Escape', () => (vModel.value = false));
+onClickOutside(containerEl, close);
+onKeyStroke('Escape', () => close);
 watchEffect(() => {
   nextTick(props.isOpened ? activate : deactivate);
 });
@@ -32,7 +44,7 @@ watchEffect(() => {
   <Teleport to="body">
     <Transition
       :duration="300"
-      @before-leave="isBodyLocked = false"
+      @after-leave="isBodyLocked = false"
       @enter="isBodyLocked = true"
     >
       <div v-if="props.isOpened" class="ui-modal">
@@ -44,6 +56,7 @@ watchEffect(() => {
               <h2>{{ props.title }}</h2>
 
               <UiButtonIcon
+                v-if="props.isClosable"
                 icon="mdi:close"
                 title="close dialod"
                 @click="vModel = false"

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { type } from 'os';
-
 type Options = {
   [key: string]: string[] | boolean;
 };

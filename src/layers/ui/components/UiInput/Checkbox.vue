@@ -69,8 +69,10 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
     margin: 0;
     font: inherit;
     color: currentColor;
-    width: var(--size-4);
-    height: var(--size-4);
+    width: 1.25em;
+    height: 1.25em;
+    min-height: 18px; /* min width og a checkbox set by the browser */
+    aspect-ratio: 1;
     border: 1px solid currentColor;
     border-radius: 0;
     display: grid;

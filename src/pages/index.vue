@@ -50,6 +50,12 @@ const components = {
       size: ['sm', 'md', 'lg', 'xl'],
       disabled: false
     }
+  },
+  modal: {
+    control: ref(false),
+    options: {
+      size: ['sm', 'md', 'lg', 'xl']
+    }
   }
 } satisfies Record<string, { options: AnyObject; control?: Ref<any> }>;
 </script>
@@ -181,6 +187,27 @@ const components = {
           >
             Strawberry
           </UiInputRadio>
+        </ComponentPreview>
+      </UiSurface>
+
+      <UiSurface>
+        <h2 id="modal">Modal</h2>
+        <ComponentPreview
+          v-slot="{ options }"
+          :options="components.modal.options"
+        >
+          <UiButton @click="components.modal.control.value = true">
+            Open Modal
+          </UiButton>
+          <UiModal
+            v-model:is-opened="components.modal.control.value"
+            title="My Modal"
+            v-bind="options"
+          >
+            <p>Wow! What a cool modal !</p>
+
+            <template #footer>And what a cool modal footer !</template>
+          </UiModal>
         </ComponentPreview>
       </UiSurface>
     </UiContainer>

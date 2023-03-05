@@ -28,7 +28,7 @@
         "not_inclusive": "Array must contain more than {minimum} element(s)"
       },
       "string": {
-        "inclusive": "String must contain at least {minimum} character(s)",
+        "inclusive": "Must have at least {minimum} character(s)",
         "not_inclusive": "String must contain over {minimum} character(s)"
       },
       "number": {

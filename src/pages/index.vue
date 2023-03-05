@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { Ref } from 'vue';
 import { AnyObject } from '../utils/types';
+import { toFormValidator } from '@vee-validate/zod';
+import { Form } from 'vee-validate';
+import * as zod from 'zod';
 
 defineOptions({
   name: 'HomePage'
@@ -57,8 +60,31 @@ const components = {
       size: ['sm', 'md', 'lg', 'xl'],
       isClosable: true
     }
+  },
+  formControl: {
+    options: {},
+    form: {
+      onSubmit(values) {
+        console.log(values);
+      },
+      schema: toFormValidator(
+        zod.object({
+          text: zod.string().min(4)
+        })
+      )
+    }
   }
-} satisfies Record<string, { options: AnyObject; control?: Ref<any> }>;
+} satisfies Record<
+  string,
+  {
+    options: AnyObject;
+    control?: Ref<any>;
+    form?: {
+      schema?: ReturnType<typeof toFormValidator>;
+      onSubmit: (values: any) => void;
+    };
+  }
+>;
 </script>
 
 <template>
@@ -214,6 +240,28 @@ const components = {
               </UiButton>
             </template>
           </UiModal>
+        </ComponentPreview>
+      </UiSurface>
+
+      <UiSurface>
+        <h2 id="formControl">Form Control</h2>
+        <ComponentPreview :options="components.formControl.options">
+          <Form
+            style="width: 20em"
+            :validation-schema="components.formControl.form.schema"
+            @submit="components.formControl.form.onSubmit"
+          >
+            <UiFormControl
+              id="form-control-text"
+              v-slot="slotProps"
+              name="text"
+              label="First name"
+            >
+              <UiInputText v-bind="slotProps" />
+            </UiFormControl>
+
+            <UiButton>Submit</UiButton>
+          </Form>
         </ComponentPreview>
       </UiSurface>
     </UiContainer>

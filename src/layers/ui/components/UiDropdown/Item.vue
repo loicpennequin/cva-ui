@@ -2,6 +2,10 @@
 import { NuxtLink } from '#components';
 import { type TypedNuxtLinkProps } from '~~/.nuxt/typed-router/typed-router';
 
+defineOptions({
+  name: 'UiDropdownItem'
+});
+
 const props = withDefaults(
   defineProps<{
     closeOnClick?: boolean;

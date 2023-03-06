@@ -5,6 +5,10 @@ import { VNodeRef } from 'vue';
 import { AnyObject, Nullable } from '~~/src/utils/types';
 import { vStableId } from '../../directives/stableId';
 
+defineOptions({
+  name: 'UiDropdown'
+});
+
 const props = withDefaults(
   defineProps<{
     isOpened: boolean;
@@ -119,6 +123,7 @@ const toggleSlotProps: { ref: VNodeRef; props: AnyObject } = useSlotProps({
       :class="menuClass"
       role="menu"
       tabindex="0"
+      @click="vModel = false"
     >
       <slot name="menu" />
     </div>
@@ -136,6 +141,19 @@ const toggleSlotProps: { ref: VNodeRef; props: AnyObject } = useSlotProps({
   background-color: var(--surface-1);
   color: var(--text-1);
 
+  &.top {
+    --_transform: translateY(var(--size-5));
+  }
+  &.bottom {
+    --_transform: translateY(calc(-1 * var(--size-5)));
+  }
+  &.left {
+    --_transform: translateX(var(--size-5));
+  }
+  &.right {
+    --_transform: translateX(calc(-1 * var(--size-5)));
+  }
+
   &.v-enter-active,
   &.v-leave-active {
     transition: opacity 0.2s, transform 0.2s;
@@ -144,31 +162,7 @@ const toggleSlotProps: { ref: VNodeRef; props: AnyObject } = useSlotProps({
   &.v-enter-from,
   &.v-leave-to {
     opacity: 0;
-  }
-
-  &.top {
-    &.v-enter-from,
-    &.v-leave-to {
-      transform: translateY(var(--size-5));
-    }
-  }
-  &.bottom {
-    &.v-enter-from,
-    &.v-leave-to {
-      transform: translateY(calc(-1 * var(--size-5)));
-    }
-  }
-  &.left {
-    &.v-enter-from,
-    &.v-leave-to {
-      transform: translateX(var(--size-5));
-    }
-  }
-  &.right {
-    &.v-enter-from,
-    &.v-leave-to {
-      transform: translateX(calc(-1 * var(--size-5)));
-    }
+    transform: var(--_transform);
   }
 }
 </style>

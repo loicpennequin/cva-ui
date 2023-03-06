@@ -37,8 +37,13 @@ export default defineNuxtConfig({
     'nuxt-typed-router',
     '@nuxt/image-edge',
     '@sidebase/nuxt-auth',
-    '@nuxt/devtools'
+    '@nuxt/devtools',
+    '@nuxtus/nuxt-localtunnel'
   ],
+
+  localtunnel: {
+    port: 3000
+  },
 
   postcss: {
     plugins: {

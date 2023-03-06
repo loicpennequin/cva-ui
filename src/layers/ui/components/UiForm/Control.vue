@@ -11,7 +11,7 @@ const slotProps = computed(() => ({
   'onUpdate:modelValue'(val: any) {
     value.value = val;
   },
-  isError: !!errorMessage.value
+  isError: !!errorMessage.value && meta.touched
 }));
 </script>
 

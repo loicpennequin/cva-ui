@@ -13,7 +13,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <UiButtonIcon
+  <UiIconButton
     :title="t('label')"
     :icon="colorModeIcon"
     @click="toggleColorMode"

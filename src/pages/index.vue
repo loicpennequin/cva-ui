@@ -143,14 +143,14 @@ const components = {
           v-slot="{ options }"
           :options="components.button.options"
         >
-          <UiButtonIcon
+          <UiIconButton
             v-if="options.iconButton"
             v-bind="options"
             icon="mdi:user"
             title="an icon button"
           >
             Click Me
-          </UiButtonIcon>
+          </UiIconButton>
           <UiButton
             v-else
             v-bind="options"
@@ -398,6 +398,7 @@ const components = {
 
 h2 {
   margin-block-end: var(--size-3);
+  scroll-margin-block-start: 5rem;
 }
 
 nav {

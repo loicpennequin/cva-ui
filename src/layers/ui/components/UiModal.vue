@@ -49,7 +49,7 @@ const { containerEl, initialFocusEl, vModel } = useModal(props, emit);
             <header>
               <h2 v-stable-id="titleId">{{ props.title }}</h2>
 
-              <UiButtonIcon
+              <UiIconButton
                 v-if="props.isClosable"
                 icon="mdi:close"
                 title="close dialog"

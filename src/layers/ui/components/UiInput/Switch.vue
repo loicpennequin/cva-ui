@@ -35,6 +35,8 @@ const inputAttrs = computed(() => omit(attrs, ['class', 'style']));
       v-bind="inputAttrs"
       class="sr-only"
       type="checkbox"
+      role="switch"
+      :aria-checked="vModel"
     />
     <slot name="off" />
     <label :for="props.id" />

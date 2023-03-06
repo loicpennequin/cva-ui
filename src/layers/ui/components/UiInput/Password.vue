@@ -24,7 +24,7 @@ const slots = useSlots();
     <template v-if="slots.left" #left><slot name="left" /></template>
 
     <template #right>
-      <UiButtonIcon
+      <UiIconButton
         type="button"
         :title="t(isPasswordShown ? 'hide' : 'show')"
         :icon="isPasswordShown ? 'mdi-eye-off' : 'mdi-eye'"

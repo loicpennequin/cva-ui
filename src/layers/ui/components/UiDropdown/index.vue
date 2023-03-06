@@ -18,18 +18,18 @@ const emit = defineEmits<{
 
 const vModel = useVModel(props, 'isOpened', emit);
 
-const dropdownEl = ref<HTMLElement>();
 const toggleEl = ref<Nullable<HTMLElement>>();
 const menuEl = ref<Nullable<HTMLElement>>();
 
 const menuId = useNanoId();
 const toggleId = useNanoId();
 
-const close = () => {
+onClickOutside(menuEl.value, (e) => {
+  const target = e.target as HTMLElement;
+  if (target === toggleEl.value || toggleEl.value?.contains(target)) return;
   vModel.value = false;
-};
-onClickOutside(dropdownEl, close);
-onKeyStroke('Escape', close);
+});
+onKeyStroke('Escape', () => (vModel.value = false));
 
 const { focused } = useFocusWithin(menuEl);
 watchEffect(() => {
@@ -69,6 +69,7 @@ useEventListener('keydown', (e) => {
 });
 
 const { x, y, strategy } = useFloating(toggleEl, menuEl, {
+  strategy: 'fixed',
   placement: toRef(props, 'placement'),
   whileElementsMounted: autoUpdate,
   middleware: [offset(15), flip()]
@@ -104,27 +105,24 @@ const toggleSlotProps: { ref: VNodeRef; props: AnyObject } = useSlotProps({
 </script>
 
 <template>
-  <div ref="dropdownEl">
-    <slot name="toggle" v-bind="toggleSlotProps" />
+  <slot name="toggle" v-bind="toggleSlotProps" />
 
-    <Transition>
-      <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
-      <!-- eslint-disable-next-line vuejs-accessibility/no-static-element-interactions -->
-      <div
-        v-if="props.isOpened"
-        ref="menuEl"
-        v-stable-id="menuId"
-        :aria-labelledby="toggleId"
-        class="ui-dropdown"
-        :class="menuClass"
-        role="menu"
-        tabindex="0"
-        @click="close"
-      >
-        <slot name="menu" />
-      </div>
-    </Transition>
-  </div>
+  <Transition>
+    <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
+    <!-- eslint-disable-next-line vuejs-accessibility/no-static-element-interactions -->
+    <div
+      v-if="props.isOpened"
+      ref="menuEl"
+      v-stable-id="menuId"
+      :aria-labelledby="toggleId"
+      class="ui-dropdown"
+      :class="menuClass"
+      role="menu"
+      tabindex="0"
+    >
+      <slot name="menu" />
+    </div>
+  </Transition>
 </template>
 
 <style scoped lang="postcss">

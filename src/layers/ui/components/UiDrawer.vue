@@ -36,7 +36,7 @@ const { containerEl, initialFocusEl, vModel } = useModal(props, emit);
 
 <template>
   <Teleport to="body">
-    <Transition :duration="300">
+    <Transition :duration="500">
       <div v-if="props.isOpened" class="ui-drawer">
         <div class="backdrop" />
 
@@ -55,7 +55,7 @@ const { containerEl, initialFocusEl, vModel } = useModal(props, emit);
             <header>
               <h2 v-stable-id="titleId">{{ props.title }}</h2>
 
-              <UiButtonIcon
+              <UiIconButton
                 v-if="props.isClosable"
                 icon="mdi:close"
                 title="close dialog"
@@ -84,6 +84,8 @@ const { containerEl, initialFocusEl, vModel } = useModal(props, emit);
   position: fixed;
   inset: 0;
   overflow-y: auto;
+  overflow-x: hidden;
+  max-width: 100vw;
   display: grid;
   z-index: 10;
 
@@ -92,13 +94,24 @@ const { containerEl, initialFocusEl, vModel } = useModal(props, emit);
     grid-row: 1;
   }
 
+  &.v-leave-active .backdrop {
+    transition-delay: 0.2s;
+  }
+  &.v-enter-active .container {
+    transition-delay: 0.2s;
+  }
+
   &.v-leave-active,
   &.v-enter-active {
     & .backdrop {
-      transition: opacity 0.3s ease;
+      transition-property: opacity;
+      transition-duration: 0.3s;
+      transition-timing-function: ease;
     }
     & .container {
-      transition: all 0.3s ease;
+      transition-property: all;
+      transition-duration: 0.3s;
+      transition-timing-function: ease;
     }
   }
 
@@ -111,7 +124,7 @@ const { containerEl, initialFocusEl, vModel } = useModal(props, emit);
       opacity: 0;
       position: relative;
       z-index: 1;
-      transform: translateY(calc(-1 * var(--size-8)));
+      transform: var(--_transform);
     }
   }
   & .backdrop {
@@ -127,19 +140,24 @@ const { containerEl, initialFocusEl, vModel } = useModal(props, emit);
 
     &.left {
       justify-self: start;
-      width: var(--_size);
+      width: 100%;
+      max-width: var(--_size);
+      --_transform: translateX(calc(-1 * var(--size-8)));
     }
     &.right {
       justify-self: end;
       width: var(--_size);
+      --_transform: translateX(calc(var(--size-8)));
     }
     &.top {
       align-self: start;
       height: var(--_size);
+      --_transform: translateY(calc(-1 * var(--size-8)));
     }
     &.bottom {
       align-self: end;
       height: var(--_size);
+      --_transform: translateY(calc(var(--size-8)));
     }
 
     &.xxs {

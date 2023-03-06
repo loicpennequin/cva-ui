@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import { BaseButtonProps } from '@ui/utils/types';
 import { NuxtLink } from '#components';
+import type { TypedNuxtLinkProps } from '~~/.nuxt/typed-router/typed-router';
 
 type Props = {
   size?: BaseButtonProps['size'];
   leftIcon?: BaseButtonProps['leftIcon'];
   rightIcon?: BaseButtonProps['rightIcon'];
   isLoading?: BaseButtonProps['isLoading'];
+  variant?: 'full' | 'outlined' | 'ghost' | 'light';
+  to?: TypedNuxtLinkProps['to'];
 };
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'md',
   leftIcon: undefined,
   rightIcon: undefined,
-  isLoading: false
+  isLoading: false,
+  variant: 'full',
+  to: undefined
 });
 
 const attrs = useAttrs();
@@ -27,7 +32,11 @@ const tag = computed(() => {
 </script>
 
 <template>
-  <component :is="tag" class="ui-button-base" :class="props.size">
+  <component
+    :is="tag"
+    class="ui-button-base"
+    :class="[props.size, props.variant]"
+  >
     <Icon
       v-if="props.leftIcon && !props.isLoading"
       :name="props.leftIcon"
@@ -80,6 +89,63 @@ const tag = computed(() => {
 
   &.xl {
     font-size: var(--font-size-3);
+  }
+
+  &.full {
+    color: var(--text-on-primary);
+    background-color: var(--primary);
+
+    &:hover:not(:disabled) {
+      background-color: var(--primary-hover);
+    }
+
+    &:disabled {
+      background-color: var(--disabled);
+      color: var(--text-disabled);
+    }
+  }
+
+  &.outlined {
+    background-color: transparent;
+    color: var(--primary);
+    border-color: currentColor;
+
+    &:hover:not(:disabled) {
+      border-color: transparent;
+      color: var(--text-on-primary);
+      background-color: var(--primary);
+    }
+
+    &:disabled {
+      color: var(--text-disabled);
+    }
+  }
+
+  &.ghost {
+    background-color: transparent;
+    color: var(--primary);
+
+    &:hover:not(:disabled) {
+      background-color: hsl(var(--primary-hsl) / 0.08);
+    }
+
+    &:disabled {
+      color: var(--text-disabled);
+    }
+  }
+
+  &.light {
+    color: var(--primary);
+    background-color: hsl(var(--primary-hsl) / 0.2);
+
+    &:hover:not(:disabled) {
+      background-color: hsl(var(--primary-hsl) / 0.3);
+    }
+
+    &:disabled {
+      background-color: hsl(var(--disabled-hsl) / 0.3);
+      color: var(--text-disabled);
+    }
   }
 
   & > .icon {

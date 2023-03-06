@@ -112,7 +112,7 @@ const components = {
 </script>
 
 <template>
-  <UiContainer size="xl" class="page">
+  <UiContainer size="xl" class="page" as="main">
     <nav>
       <ul>
         <li><h2>Components</h2></li>

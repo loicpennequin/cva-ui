@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Placement, offset } from '@floating-ui/dom';
+import { Placement, offset, flip } from '@floating-ui/dom';
 import { useFloating, autoUpdate } from '@floating-ui/vue';
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 import { VNodeRef } from 'vue';
@@ -26,7 +26,7 @@ const { activate, deactivate } = useFocusTrap(menuEl, {
 const { x, y, strategy } = useFloating(toggleEl, menuEl, {
   placement: toRef(props, 'placement'),
   whileElementsMounted: autoUpdate,
-  middleware: [offset(15)]
+  middleware: [offset(15), flip()]
 });
 
 const close = () => {

@@ -1,8 +1,10 @@
 export const getFocusableChildren = (node?: HTMLElement | null | undefined) =>
   node
-    ? (node.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      ) as unknown as HTMLElement[])
+    ? ([
+        ...node.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ] as HTMLElement[])
     : [];
 
 export const KEYBOARD = {

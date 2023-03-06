@@ -28,7 +28,14 @@ const is = computed(() => {
 });
 </script>
 <template>
-  <component :is="is" :to="props.to" class="ui-dropdown-item" @click="onClick">
+  <component
+    :is="is"
+    :to="props.to"
+    class="ui-dropdown-item"
+    role="menuitem"
+    tabindex="-1"
+    @click="onClick"
+  >
     <Icon :name="props.icon" />
     <div>
       <slot />

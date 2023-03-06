@@ -26,6 +26,9 @@ useI18n();
 header {
   background-color: var(--surface-1);
   box-shadow: var(--shadow-2);
+  position: sticky;
+  top: 0;
+  z-index: 1;
 
   > div {
     display: flex;
@@ -46,10 +49,5 @@ nav {
 .lavout {
   display: grid;
   grid-template-rows: auto 1fr;
-}
-
-header {
-  position: sticky;
-  top: 0;
 }
 </style>

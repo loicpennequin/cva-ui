@@ -283,7 +283,13 @@ const components = {
             v-bind="options"
           >
             <template #toggle="{ ref, props }">
-              <UiButton :ref="ref" v-bind="props">Toggle dropdown</UiButton>
+              <UiButton
+                :ref="ref"
+                v-bind="props"
+                right-icon="bi:caret-down-fill"
+              >
+                Toggle dropdown
+              </UiButton>
             </template>
 
             <template #menu>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Placement, offset, flip } from '@floating-ui/dom';
 import { useFloating, autoUpdate } from '@floating-ui/vue';
-import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 import { VNodeRef } from 'vue';
-import { Nullable } from '~~/src/utils/types';
+import { AnyObject, Nullable } from '~~/src/utils/types';
+import { vStableId } from '../../directives/stableId';
 
 const props = withDefaults(
   defineProps<{
@@ -17,17 +17,13 @@ const emit = defineEmits<{
 }>();
 
 const vModel = useVModel(props, 'isOpened', emit);
+
 const dropdownEl = ref<HTMLElement>();
 const toggleEl = ref<Nullable<HTMLElement>>();
 const menuEl = ref<Nullable<HTMLElement>>();
-const { activate, deactivate } = useFocusTrap(menuEl, {
-  allowOutsideClick: true
-});
-const { x, y, strategy } = useFloating(toggleEl, menuEl, {
-  placement: toRef(props, 'placement'),
-  whileElementsMounted: autoUpdate,
-  middleware: [offset(15), flip()]
-});
+
+const menuId = useNanoId();
+const toggleId = useNanoId();
 
 const close = () => {
   vModel.value = false;
@@ -35,8 +31,47 @@ const close = () => {
 onClickOutside(dropdownEl, close);
 onKeyStroke('Escape', close);
 
+const { focused } = useFocusWithin(menuEl);
 watchEffect(() => {
-  nextTick(props.isOpened ? activate : deactivate);
+  if (props.isOpened) {
+    nextTick(() => {
+      getFocusableChildren(menuEl.value)[0].focus();
+    });
+  }
+});
+watch([vModel, focused], ([, focused], [prevIsOpened, prevFocused]) => {
+  if (!prevIsOpened || !prevFocused) return;
+  const isToggleFocused = activeElement.value === toggleEl.value;
+  if (!focused && !isToggleFocused) {
+    vModel.value = false;
+  }
+});
+const activeElement = useActiveElement();
+useEventListener('keydown', (e) => {
+  if (![KEYBOARD.ArrowDown, KEYBOARD.ArrowUp].includes(e.code as any)) return;
+  if (!props.isOpened) return;
+  const focusable = getFocusableChildren(menuEl.value);
+  const index = focusable.findIndex((el) => el === activeElement.value);
+  if (index === -1) return;
+  e.preventDefault();
+  let nextIndex: number;
+  switch (e.code) {
+    case KEYBOARD.ArrowUp:
+      nextIndex = index === 0 ? focusable.length - 1 : index - 1;
+      break;
+    case KEYBOARD.ArrowDown:
+      nextIndex = index === focusable.length - 1 ? 0 : index + 1;
+      break;
+    default:
+      return;
+  }
+  focusable[nextIndex].focus();
+});
+
+const { x, y, strategy } = useFloating(toggleEl, menuEl, {
+  placement: toRef(props, 'placement'),
+  whileElementsMounted: autoUpdate,
+  middleware: [offset(15), flip()]
 });
 
 const menuStyle = computed(() => ({
@@ -44,7 +79,6 @@ const menuStyle = computed(() => ({
   y: `${y.value ?? 0}px`,
   position: strategy.value
 }));
-
 const menuClass = computed(() => {
   if (props.placement.includes('top')) return 'top';
   if (props.placement.includes('bottom')) return 'bottom';
@@ -53,16 +87,20 @@ const menuClass = computed(() => {
   return '';
 });
 
-const toggleSlotProps: { ref: VNodeRef; props: { onClick: () => void } } = {
+const toggleSlotProps: { ref: VNodeRef; props: AnyObject } = useSlotProps({
   ref: (el) => {
     toggleEl.value = unrefElement(el as any);
   },
   props: {
+    'aria-haspopup': true,
+    'aria-controls': menuId,
+    'aria-expanded': computed(() => props.isOpened),
+    id: toggleId,
     onClick: () => {
       vModel.value = !vModel.value;
     }
   }
-};
+});
 </script>
 
 <template>
@@ -75,8 +113,12 @@ const toggleSlotProps: { ref: VNodeRef; props: { onClick: () => void } } = {
       <div
         v-if="props.isOpened"
         ref="menuEl"
+        v-stable-id="menuId"
+        :aria-labelledby="toggleId"
         class="ui-dropdown"
         :class="menuClass"
+        role="menu"
+        tabindex="0"
         @click="close"
       >
         <slot name="menu" />
@@ -91,6 +133,7 @@ const toggleSlotProps: { ref: VNodeRef; props: { onClick: () => void } } = {
   left: v-bind('menuStyle.x');
   top: v-bind('menuStyle.y');
   z-index: 10;
+  border: solid 1px var(--border-dimmed);
   box-shadow: var(--shadow-2);
   background-color: var(--surface-1);
   color: var(--text-1);

@@ -1,5 +1,4 @@
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
-import { Nullable } from '~~/src/utils/types';
 
 export const useModal = (
   props: { isOpened: boolean; isClosable?: boolean },
@@ -10,7 +9,7 @@ export const useModal = (
   const vModel = useVModel(props, 'isOpened', emit);
   const containerEl = ref<HTMLElement>();
   const isBodyLocked = ref(false);
-  const initialFocusEl = ref<Nullable<HTMLElement>>();
+  const initialFocusEl = ref<HTMLElement>();
   const { activate, deactivate } = useFocusTrap(containerEl, {
     initialFocus: () => initialFocusEl.value as HTMLElement
   });
@@ -22,7 +21,7 @@ export const useModal = (
 
   useBodyScrollLock(isBodyLocked);
   onClickOutside(containerEl, close);
-  onKeyStroke('Escape', () => close);
+  onKeyStroke('Escape', close);
   watchEffect(() => {
     nextTick(props.isOpened ? activate : deactivate);
     nextTick(() => {

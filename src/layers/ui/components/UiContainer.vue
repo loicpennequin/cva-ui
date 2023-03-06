@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { ViewportBreakpoint } from '../utils/types';
+
 const props = withDefaults(
-  defineProps<{ as?: string; size?: 'sm' | 'md' | 'lg' | 'xl' }>(),
+  defineProps<{ as?: string; size?: ViewportBreakpoint }>(),
   { as: 'div', size: 'md' }
 );
 </script>
@@ -16,6 +18,12 @@ const props = withDefaults(
   width: 100%;
   margin-inline: auto;
 
+  &.xxs {
+    max-width: var(--size-xxs);
+  }
+  &.xs {
+    max-width: var(--size-xs);
+  }
   &.sm {
     max-width: var(--size-sm);
   }
@@ -27,6 +35,9 @@ const props = withDefaults(
   }
   &.xl {
     max-width: var(--size-xl);
+  }
+  &.xxl {
+    max-width: var(--size-xxl);
   }
 }
 </style>

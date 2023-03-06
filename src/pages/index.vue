@@ -72,13 +72,6 @@ const components = {
       )
     }
   },
-  modal: {
-    control: ref(false),
-    options: {
-      size: ['sm', 'md', 'lg', 'xl'],
-      isClosable: true
-    }
-  },
   dropdown: {
     control: ref(false),
     options: {
@@ -95,7 +88,23 @@ const components = {
         'bottom',
         'bottom-start',
         'bottom-end'
-      ]
+      ],
+      closeOnClick: true
+    }
+  },
+  modal: {
+    control: ref(false),
+    options: {
+      size: ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+      isClosable: true
+    }
+  },
+  drawer: {
+    control: ref(false),
+    options: {
+      size: ['auto', 'xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'],
+      placement: ['left', 'right', 'top', 'bottom'],
+      isClosable: true
     }
   }
 } satisfies Record<
@@ -264,6 +273,35 @@ const components = {
       </UiSurface>
 
       <UiSurface>
+        <h2 id="dropdown">Dropdown</h2>
+        <ComponentPreview
+          v-slot="{ options }"
+          :options="components.dropdown.options"
+        >
+          <UiDropdown
+            v-model:is-opened="components.dropdown.control.value"
+            v-bind="options"
+          >
+            <template #toggle="{ ref, props }">
+              <UiButton :ref="ref" v-bind="props">Toggle dropdown</UiButton>
+            </template>
+
+            <template #menu>
+              <UiDropdownItem
+                v-for="i in [1, 2, 3]"
+                :key="i"
+                icon="mdi:account"
+                :close-on-click="!!options.closeOnClick"
+                @click.prevent
+              >
+                Item {{ i }}
+              </UiDropdownItem>
+            </template>
+          </UiDropdown>
+        </ComponentPreview>
+      </UiSurface>
+
+      <UiSurface>
         <h2 id="modal">Modal</h2>
         <ComponentPreview
           v-slot="{ options }"
@@ -299,31 +337,37 @@ const components = {
       </UiSurface>
 
       <UiSurface>
-        <h2 id="dropdown">Dropdown</h2>
+        <h2 id="drawer">Drawer</h2>
         <ComponentPreview
           v-slot="{ options }"
-          :options="components.dropdown.options"
+          :options="components.drawer.options"
         >
-          <UiDropdown
-            v-model:is-opened="components.dropdown.control.value"
+          <UiButton @click="components.drawer.control.value = true">
+            Open Drawer
+          </UiButton>
+          <UiDrawer
+            v-model:is-opened="components.drawer.control.value"
+            title="My Drawer"
             v-bind="options"
           >
-            <template #toggle="{ ref, props }">
-              <UiButton :ref="ref" v-bind="props">Toggle dropdown</UiButton>
-            </template>
+            <p>Wow! What a cool Drawer !</p>
 
-            <template #menu>
-              <UiDropdownItem icon="mdi:account" @click.prevent>
-                Item 1
-              </UiDropdownItem>
-              <UiDropdownItem icon="mdi:account" @click.prevent>
-                Item 2
-              </UiDropdownItem>
-              <UiDropdownItem icon="mdi:account" @click.prevent>
-                Item 3
-              </UiDropdownItem>
+            <template #footer="{ focusRef }">
+              And what a cool drawer footer !
+              <template v-if="!options.isClosable">
+                <p>
+                  This drawer is not closable, so use the button below to get
+                  out :D
+                </p>
+                <UiButton
+                  :ref="focusRef"
+                  @click="components.drawer.control.value = false"
+                >
+                  Force close
+                </UiButton>
+              </template>
             </template>
-          </UiDropdown>
+          </UiDrawer>
         </ComponentPreview>
       </UiSurface>
     </UiContainer>

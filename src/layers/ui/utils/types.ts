@@ -7,3 +7,12 @@ export type BaseButtonProps = {
   isLoading?: boolean;
   pill?: boolean;
 };
+
+export type ViewportBreakpoint =
+  | 'xxs'
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
+  | 'xxl';

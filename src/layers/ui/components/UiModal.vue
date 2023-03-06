@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 import { VNodeRef } from 'vue';
-import { Nullable } from '~~/src/utils/types';
-import { vStableId } from '../../directives/stableId';
+import { vStableId } from '../directives/stableId';
+import { ViewportBreakpoint } from '../utils/types';
 
 const props = withDefaults(
   defineProps<{
     isOpened: boolean;
     title: string;
-    size?: 'sm' | 'md' | 'lg' | 'xl';
+    size?: ViewportBreakpoint;
     isClosable?: boolean;
   }>(),
   {
@@ -16,7 +15,6 @@ const props = withDefaults(
     isClosable: true
   }
 );
-
 const emit = defineEmits<
   SE<{
     'update:isOpened'(val: string): void;
@@ -24,19 +22,7 @@ const emit = defineEmits<
 >();
 
 const slots = useSlots();
-const vModel = useVModel(props, 'isOpened', emit);
 const titleId = useNanoId();
-const containerEl = ref<HTMLElement>();
-const isBodyLocked = ref(false);
-const initialFocusEl = ref<Nullable<HTMLElement>>();
-const { activate, deactivate } = useFocusTrap(containerEl, {
-  initialFocus: () => initialFocusEl.value as HTMLElement
-});
-
-const close = () => {
-  if (!props.isClosable) return;
-  vModel.value = false;
-};
 
 const slotProps: { focusRef: VNodeRef } = {
   focusRef: (el) => {
@@ -44,15 +30,7 @@ const slotProps: { focusRef: VNodeRef } = {
   }
 };
 
-useBodyScrollLock(isBodyLocked);
-onClickOutside(containerEl, close);
-onKeyStroke('Escape', () => close);
-watchEffect(() => {
-  nextTick(props.isOpened ? activate : deactivate);
-  nextTick(() => {
-    isBodyLocked.value = props.isOpened;
-  });
-});
+const { containerEl, initialFocusEl, vModel } = useModal(props, emit);
 </script>
 
 <template>

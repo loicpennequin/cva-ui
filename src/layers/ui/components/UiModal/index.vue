@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
+import { VNodeRef } from 'vue';
+import { Nullable } from '~~/src/utils/types';
+import { vStableId } from '../../directives/stableId';
 
 const props = withDefaults(
   defineProps<{
@@ -21,15 +24,24 @@ const emit = defineEmits<
 >();
 
 const slots = useSlots();
-
 const vModel = useVModel(props, 'isOpened', emit);
+const titleId = useNanoId();
 const containerEl = ref<HTMLElement>();
 const isBodyLocked = ref(false);
-const { activate, deactivate } = useFocusTrap(containerEl);
+const initialFocusEl = ref<Nullable<HTMLElement>>();
+const { activate, deactivate } = useFocusTrap(containerEl, {
+  initialFocus: () => initialFocusEl.value as HTMLElement
+});
 
 const close = () => {
   if (!props.isClosable) return;
   vModel.value = false;
+};
+
+const slotProps: { focusRef: VNodeRef } = {
+  focusRef: (el) => {
+    initialFocusEl.value = unrefElement(el as any);
+  }
 };
 
 useBodyScrollLock(isBodyLocked);
@@ -37,38 +49,43 @@ onClickOutside(containerEl, close);
 onKeyStroke('Escape', () => close);
 watchEffect(() => {
   nextTick(props.isOpened ? activate : deactivate);
+  nextTick(() => {
+    isBodyLocked.value = props.isOpened;
+  });
 });
 </script>
 
 <template>
   <Teleport to="body">
-    <Transition
-      :duration="300"
-      @after-leave="isBodyLocked = false"
-      @enter="isBodyLocked = true"
-    >
+    <Transition :duration="300">
       <div v-if="props.isOpened" class="ui-modal">
         <div class="backdrop" />
 
         <UiContainer ref="containerEl" class="container" :size="props.size">
-          <UiSurface class="content">
+          <UiSurface
+            class="content"
+            role="dialog"
+            aria-modal="true"
+            :aria-labelledby="titleId"
+          >
             <header>
-              <h2>{{ props.title }}</h2>
+              <h2 v-stable-id="titleId">{{ props.title }}</h2>
 
               <UiButtonIcon
                 v-if="props.isClosable"
                 icon="mdi:close"
-                title="close dialod"
+                title="close dialog"
+                type="button"
                 @click="vModel = false"
               />
             </header>
 
             <section>
-              <slot />
+              <slot v-bind="slotProps" />
             </section>
 
             <footer v-if="slots.footer">
-              <slot name="footer" />
+              <slot name="footer" v-bind="slotProps" />
             </footer>
           </UiSurface>
         </UiContainer>
@@ -130,7 +147,9 @@ watchEffect(() => {
   max-height: calc(100vh - (2 * var(--_offset-y)));
 
   @media (--md-n-below) {
-    --_offset-y: var(--size-6);
+    --_offset-y: 0;
+    margin-block-start: 0;
+    align-self: center;
   }
 }
 

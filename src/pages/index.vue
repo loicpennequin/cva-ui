@@ -58,13 +58,7 @@ const components = {
       isError: false
     }
   },
-  modal: {
-    control: ref(false),
-    options: {
-      size: ['sm', 'md', 'lg', 'xl'],
-      isClosable: true
-    }
-  },
+
   formControl: {
     options: {},
     form: {
@@ -76,6 +70,32 @@ const components = {
           text: zod.string().min(4)
         })
       )
+    }
+  },
+  modal: {
+    control: ref(false),
+    options: {
+      size: ['sm', 'md', 'lg', 'xl'],
+      isClosable: true
+    }
+  },
+  dropdown: {
+    control: ref(false),
+    options: {
+      placement: [
+        'left',
+        'left-start',
+        'left-end',
+        'right',
+        'right-start',
+        'right-end',
+        'top',
+        'top-start',
+        'top-end',
+        'bottom',
+        'bottom-start',
+        'bottom-end'
+      ]
     }
   }
 } satisfies Record<
@@ -222,32 +242,6 @@ const components = {
       </UiSurface>
 
       <UiSurface>
-        <h2 id="modal">Modal</h2>
-        <ComponentPreview
-          v-slot="{ options }"
-          :options="components.modal.options"
-        >
-          <UiButton @click="components.modal.control.value = true">
-            Open Modal
-          </UiButton>
-          <UiModal
-            v-model:is-opened="components.modal.control.value"
-            title="My Modal"
-            v-bind="options"
-          >
-            <p>Wow! What a cool modal !</p>
-
-            <template #footer>
-              And what a cool modal footer !
-              <UiButton @click="components.modal.control.value = false">
-                Close
-              </UiButton>
-            </template>
-          </UiModal>
-        </ComponentPreview>
-      </UiSurface>
-
-      <UiSurface>
         <h2 id="formControl">Form Control</h2>
         <ComponentPreview :options="components.formControl.options">
           <Form
@@ -266,6 +260,70 @@ const components = {
 
             <UiButton>Submit</UiButton>
           </Form>
+        </ComponentPreview>
+      </UiSurface>
+
+      <UiSurface>
+        <h2 id="modal">Modal</h2>
+        <ComponentPreview
+          v-slot="{ options }"
+          :options="components.modal.options"
+        >
+          <UiButton @click="components.modal.control.value = true">
+            Open Modal
+          </UiButton>
+          <UiModal
+            v-model:is-opened="components.modal.control.value"
+            title="My Modal"
+            v-bind="options"
+          >
+            <p>Wow! What a cool modal !</p>
+
+            <template #footer="{ focusRef }">
+              And what a cool modal footer !
+              <template v-if="!options.isClosable">
+                <p>
+                  This modal is not closable, so use the button below to get out
+                  :D
+                </p>
+                <UiButton
+                  :ref="focusRef"
+                  @click="components.modal.control.value = false"
+                >
+                  Force close
+                </UiButton>
+              </template>
+            </template>
+          </UiModal>
+        </ComponentPreview>
+      </UiSurface>
+
+      <UiSurface>
+        <h2 id="dropdown">Dropdown</h2>
+        <ComponentPreview
+          v-slot="{ options }"
+          :options="components.dropdown.options"
+        >
+          <UiDropdown
+            v-model:is-opened="components.dropdown.control.value"
+            v-bind="options"
+          >
+            <template #toggle="{ ref, props }">
+              <UiButton :ref="ref" v-bind="props">Toggle dropdown</UiButton>
+            </template>
+
+            <template #menu>
+              <UiDropdownItem icon="mdi:account" @click.prevent>
+                Item 1
+              </UiDropdownItem>
+              <UiDropdownItem icon="mdi:account" @click.prevent>
+                Item 2
+              </UiDropdownItem>
+              <UiDropdownItem icon="mdi:account" @click.prevent>
+                Item 3
+              </UiDropdownItem>
+            </template>
+          </UiDropdown>
         </ComponentPreview>
       </UiSurface>
     </UiContainer>

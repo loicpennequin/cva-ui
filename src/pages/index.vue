@@ -7,7 +7,7 @@ defineOptions({
 });
 
 const { hash } = toRefs(useRoute());
-console.log(hash.value);
+
 const components = useNuxtApp().$componentsPreviews;
 
 const sortedComponents = Object.entries(components)
@@ -31,14 +31,26 @@ const getComponent = (name: Keys<typeof componentMap>) => componentMap[name];
             :class="hash.slice(1) === link.name && 'active'"
           >
             {{ link.name }}
+            <sup v-if="'wip' in link">WIP</sup>
           </NuxtLink>
         </li>
       </ul>
     </nav>
 
-    <UiContainer class="previews">
-      <UiSurface v-for="component in sortedComponents" :key="component.name">
-        <h2 :id="component.name">{{ component.name }}</h2>
+    <UiContainer>
+      <UiSurface
+        v-for="component in sortedComponents"
+        :key="component.name"
+        class="preview"
+      >
+        <h2 :id="component.name">
+          {{ component.name }}
+          <sup v-if="'wip' in component">WIP</sup>
+        </h2>
+        <p v-if="'wip' in component">
+          This component is a work in progress. Its API may encounter breaking
+          changes.
+        </p>
         <ComponentPreview v-slot="{ options }" :options="component.options">
           <component
             :is="getComponent(component.name as any)"
@@ -60,9 +72,13 @@ const getComponent = (name: Keys<typeof componentMap>) => componentMap[name];
     display: block;
   }
 }
-.previews {
-  & > * + * {
+.preview {
+  & + .preview {
     margin-block-start: var(--size-8);
+  }
+  & > p {
+    margin-block-end: var(--size-3);
+    max-inline-size: 100%;
   }
 }
 

@@ -18,6 +18,7 @@ import {
 export type ComponentPreviewOptions = {
   options: AnyObject;
   control?: Ref<any>;
+  wip?: boolean;
   form?: {
     schema?: ReturnType<typeof toFormValidator>;
     onSubmit: (values: any) => void;
@@ -122,8 +123,14 @@ const makeOptions = () =>
       }
     },
     toastBar: {
+      wip: true,
       control: ref(true),
-      options: {}
+      options: {
+        placement: ['left', 'right', 'top', 'bottom'],
+        timeout: ['default', '1000', '3000', 'none'],
+        customToast: false,
+        hasProgressBar: true
+      }
     }
   } satisfies Record<string, ComponentPreviewOptions>);
 

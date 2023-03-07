@@ -83,7 +83,6 @@ input {
 
   &:checked ~ label:after {
     left: calc(100% - var(--_height));
-    background-color: var(--primary);
   }
 }
 
@@ -105,7 +104,7 @@ label {
     height: var(--_height);
     aspect-ratio: 1;
     border-radius: var(--radius-pill);
-    background-color: hsl(var(--primary-hsl) / 0.6);
+    background-color: var(--primary);
     transition: left 200ms, background-color 200ms;
   }
 }

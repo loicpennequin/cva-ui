@@ -11,7 +11,8 @@ import {
   PreviewsFormControl,
   PreviewsModal,
   PreviewsDrawer,
-  PreviewsDropdown
+  PreviewsDropdown,
+  PreviewsToastBar
 } from '#components';
 
 export type ComponentPreviewOptions = {
@@ -119,6 +120,10 @@ const makeOptions = () =>
         placement: ['left', 'right', 'top', 'bottom'],
         isClosable: true
       }
+    },
+    toastBar: {
+      control: ref(true),
+      options: {}
     }
   } satisfies Record<string, ComponentPreviewOptions>);
 
@@ -134,7 +139,8 @@ export const componentMap: Record<
   dropdown: PreviewsDropdown,
   modal: PreviewsModal,
   drawer: PreviewsDrawer,
-  formControl: PreviewsFormControl
+  formControl: PreviewsFormControl,
+  toastBar: PreviewsToastBar
 };
 
 declare module '#app' {

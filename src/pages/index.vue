@@ -7,7 +7,7 @@ defineOptions({
 });
 
 const { hash } = toRefs(useRoute());
-
+console.log(hash.value);
 const components = useNuxtApp().$componentsPreviews;
 
 const sortedComponents = Object.entries(components)

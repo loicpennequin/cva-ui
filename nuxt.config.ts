@@ -43,7 +43,8 @@ export default defineNuxtConfig({
   ],
 
   localtunnel: {
-    port: 3000
+    port: 3000,
+    subdomain: 'cva-ui'
   },
 
   postcss: {

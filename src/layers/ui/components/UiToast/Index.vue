@@ -2,6 +2,10 @@
 import { NuxtLink } from '#components';
 import type { TypedNuxtLinkProps } from '~~/.nuxt/typed-router/typed-router';
 
+defineOptions({
+  inheritAttrs: false
+});
+
 const props = withDefaults(
   defineProps<{
     isOpened: boolean;
@@ -81,7 +85,7 @@ const progressBarAnimDuration = computed(() => `${props.timeout}ms`);
           @pointerup.stop
         >
           <slot>
-            <UiSurface class="ui-toast" role="status">
+            <UiSurface class="ui-toast" role="status" v-bind="$attrs">
               <Icon :name="props.icon" class="icon" />
 
               <component
@@ -149,7 +153,6 @@ const progressBarAnimDuration = computed(() => `${props.timeout}ms`);
 }
 .ui-toast {
   padding: var(--size-2) var(--size-3);
-  border-top: solid 8px var(--_color);
   border-radius: var(--radius-2);
   outline: solid 1px var(--border-dimmed);
   display: grid;
@@ -159,6 +162,19 @@ const progressBarAnimDuration = computed(() => `${props.timeout}ms`);
   user-select: none;
   cursor: grab;
   --_color: var(--primary);
+
+  .ui-toast-wrapper.bottom & {
+    border-top: solid 8px var(--_color);
+  }
+  .ui-toast-wrapper.top & {
+    border-bottom: solid 8px var(--_color);
+  }
+  .ui-toast-wrapper.left & {
+    border-right: solid 8px var(--_color);
+  }
+  .ui-toast-wrapper.right & {
+    border-left: solid 8px var(--_color);
+  }
 
   & .content {
     color: inherit;
